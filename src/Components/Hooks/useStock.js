@@ -8,7 +8,7 @@ const useStock = (stock) => {
 	const oldPrice = useRef(0)
 	const changePercent = useRef(0)
 	const openPrice = useRef(0)
-	let first
+	let first = 0
 	
 
 	useEffect(() => {
