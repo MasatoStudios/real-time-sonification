@@ -1,18 +1,30 @@
 /* eslint-disable no-unused-vars */
+
+// basic styling through chakra ui
 import {
 	Flex,
 	Button,
 	ButtonGroup,
 	ChakraProvider,
 	Center,
+	DarkMode,
 } from '@chakra-ui/react'
+
+//globally import tone.js
 import * as Tone from 'tone'
+
+// import react hooks
 import { useState, useEffect, useRef } from 'react'
+
+// import protobuf to decrypt websocket data
 import protobuf from 'protobufjs'
+
+// custom made styling
 import Template from './Components/Template/Template'
-import './App.css'
 import Card from './Components/Card/Card'
-import VooClosing from './Data/VooClosing'
+import './App.css'
+
+// import custom made audio functions
 import {
 	PlaySound,
 	StopSound,
@@ -20,9 +32,17 @@ import {
 	RiseAlarm,
 	FilterChange,
 } from './Audio/Noise'
+
+import { GetTime } from './Components/Functions/GetTime'
+
+//import custom made hooks
 import useStock from './Components/Hooks/useStock'
+import useAlarm from './Components/Hooks/useAlarm'
+
+// import Buffer to handle websocket data from websocket
 const { Buffer } = require('buffer/')
 
+// function responsible for formatting price to 2 decimal places
 function formatPrice(price) {
 	return `$${price.toFixed(2)}`
 }
@@ -31,7 +51,11 @@ function formatPrice(price) {
 // May include instead of Tone.js
 
 const App = () => {
+	// use states for dark mode and audio
+	const [darkMode, setDarkMode] = useState(false)
 	const [playing, setPlaying] = useState(false)
+
+	// creates new variable and assigns values from useStock hook
 	const {
 		current: currentVOO,
 		changePercent: changePercentVOO,
@@ -56,7 +80,7 @@ const App = () => {
 		changePercent: changePercentFB,
 		openPrice: openPriceFB,
 		oldPrice: oldPriceFB,
-	} = useStock('FB')
+	} = useStock('META')
 
 	const {
 		current: currentNVDA,
@@ -72,35 +96,60 @@ const App = () => {
 		oldPrice: oldPriceAAPL,
 	} = useStock('AAPL')
 
+	//parameters for useAlarm
+	//changePercentage, rising note, falling note, change from starting price
+	useAlarm(changePercentVOO.current, 'C4', 'C2', 1, 1)
+	useAlarm(changePercentJEPQ.current, 'C4', 'C2', 1, 1)
+	useAlarm(changePercentARKK.current, 'A4', 'A2', 2, 2)
+
+	// useEffect to play and stop audio
 	useEffect(() => {
 		if (playing === true) {
 			PlaySound()
 		} else if (playing === false) {
 			StopSound()
 		}
-		//make am alarm if price drops above/below 1% of old price
-		if (changePercentVOO.current < -1) {
-			console.log('drop')
-			// console.log(changePercent.current)
-			DropAlarm()
-		} else if (changePercentVOO.current > 1) {
-			RiseAlarm()
-			console.log('rise')
-			// console.log(changePercent.current)
-		}
 
-		//Change the filter depending on the trend of the stock
+		//Change the filter depending on the trend of the S&P 500
 		FilterChange(changePercentVOO.current)
 
 		// troubleshooting for changePercent Function
 		// console.log(changePercent.current)
 	})
 
+	// useEffect checks for dark mode in local storage
+	useEffect(() => {
+		const jsonStorage = localStorage.getItem('site-dark-mode')
+		const currentMode = JSON.parse(jsonStorage)
+		if (currentMode) {
+			setDarkMode(true)
+		} else {
+			setDarkMode(false)
+		}
+	}, [])
+
+	// useEffect to set dark mode class to body
+	useEffect(() => {
+		if (darkMode) {
+			document.body.classList.add('dark')
+		} else {
+			document.body.classList.remove('dark')
+		}
+		const jsonStorage = JSON.stringify(darkMode)
+		localStorage.setItem('site-dark-mode', jsonStorage)
+	}, [darkMode])
+
 	return (
 		<ChakraProvider>
 			<Template>
 				<div className='containerMargin'>
-					<Flex className='container' flexDirection='row'>
+					<div className='buttonContainer'>
+						<button
+							className={darkMode ? 'night' : 'light'}
+							onClick={() => setDarkMode(!darkMode)}
+						></button>
+					</div>
+					<Flex className='container top' flexDirection='row'>
 						<Card
 							Name='Vanguard S&P 500'
 							Ticker='VOO'
@@ -127,21 +176,25 @@ const App = () => {
 					<Flex className='container'>
 						<Card
 							Name='Facebook'
-							Ticker='FB'
+							Ticker='META'
 							Price={currentFB && <>{formatPrice(currentFB.price)}</>}
-							Opening={currentFB && <>{formatPrice(openPriceFB.current)}</>}
+							Opening={openPriceFB && <>{formatPrice(openPriceFB.current)}</>}
 						/>
 						<Card
 							Name='Nvidia'
 							Ticker='NVDA'
 							Price={currentNVDA && <>{formatPrice(currentNVDA.price)}</>}
-							Opening={currentNVDA && <>{formatPrice(openPriceNVDA.current)}</>}
+							Opening={
+								openPriceNVDA && <>{formatPrice(openPriceNVDA.current)}</>
+							}
 						/>
 						<Card
 							Name='Apple'
 							Ticker='AAPL'
 							Price={currentAAPL && <>{formatPrice(currentAAPL.price)}</>}
-							Opening={currentAAPL && <>{formatPrice(openPriceAAPL.current)}</>}
+							Opening={
+								openPriceAAPL && <>{formatPrice(openPriceAAPL.current)}</>
+							}
 						/>
 					</Flex>
 				</div>
@@ -162,6 +215,14 @@ const App = () => {
 					</Button>
 				</ButtonGroup>
 				{/* <VooClosing /> */}
+				{/* <p>
+					Opening time: 2:30pm <em>GMT</em>
+				</p>
+				<p>
+					Closing time: 9pm <em>GMT</em>
+				</p> */}
+
+				<>{GetTime()}</>
 			</Template>
 		</ChakraProvider>
 	)
