@@ -1,6 +1,6 @@
 import { render, screen, cleanup } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-const Card = require('./Card')
+const Card = require('../Components/Card/Card')
 
 afterEach(cleanup)
 
