@@ -9,7 +9,6 @@ const useStock = (stock) => {
 	const changePercent = useRef(0)
 	const openPrice = useRef(0)
 	let first = 0
-	
 
 	useEffect(() => {
 		// defines websocket to connect to
@@ -46,12 +45,10 @@ const useStock = (stock) => {
 				changePercent.current = next.changePercent
 				oldPrice.current = next.price
 
-				if (first < 1) {
+				if (first === 0) {
 					openPrice.current = next.price
 					first++
 				}
-				
-
 
 				// troubleshooting commands for websocket data
 				// console.log(next)
