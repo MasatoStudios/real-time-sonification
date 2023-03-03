@@ -1,0 +1,13 @@
+.time{
+    margin-top: 7rem;
+    text-align: center;
+    font-weight: 600;
+    font-size: 10rem;
+    color: #000;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.dark h4{
+    color: #dadada;
+}
