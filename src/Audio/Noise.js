@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import * as Tone from 'tone'
 
 //TODO:
@@ -11,7 +12,7 @@ import * as Tone from 'tone'
 
 //basic noise creation
 const noise = new Tone.Noise('brown')
-// lower the volume to -40db
+// lower the volume to -35db
 noise.volume.value = -35
 const noiseFilter = new Tone.Filter(1000, 'lowpass').connect(Tone.Master)
 noise.connect(noiseFilter)
@@ -54,7 +55,7 @@ export function RiseAlarm(rising) {
 }
 
 //function to change the filter of the noise depending on the trend of the S&P 500
-export function FilterChange(ref) {
+export function FilterChange(ref) {	
 	if (ref < 0) {
 		noiseFilter.frequency.value -= 10
 		// console.log('adding to filter')

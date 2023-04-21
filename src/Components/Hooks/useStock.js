@@ -38,12 +38,13 @@ const useStock = (stock) => {
 			ws.onmessage = function incoming(message) {
 				//decodes the data
 				const next = Yaticker.decode(new Buffer(message.data, 'base64'))
+				//sets the old price to the current price
+				oldPrice.current = next.price
 				//sets the current state to the decoded data
 				setCurrent(next)
 				
 				// console.log(next);
 				changePercent.current = next.changePercent
-				oldPrice.current = next.price
 
 				if (first === 0) {
 					openPrice.current = next.price
