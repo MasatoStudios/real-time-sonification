@@ -98,9 +98,12 @@ const App = () => {
 
 	//parameters for useAlarm
 	//changePercentage, rising note, falling note, change from starting price
-	useAlarm(changePercentVOO.current, 'C4', 'C2', 1, 1)
-	useAlarm(changePercentJEPQ.current, 'C4', 'C2', 1, 1)
-	useAlarm(changePercentARKK.current, 'A4', 'A2', 2, 2)
+
+	// For alarms, use the following scale
+	// Amaj Dorian scale = A B C D E F# G A
+	
+	useAlarm(changePercentVOO.current, 'A6', 'C3', 5, 5)
+	useAlarm(changePercentARKK.current, 'A5', 'E3', 5, 5)
 
 	// useEffect to play and stop audio
 	useEffect(() => {
@@ -214,13 +217,6 @@ const App = () => {
 						Stop
 					</Button>
 				</ButtonGroup>
-				{/* <VooClosing /> */}
-				{/* <p>
-					Opening time: 2:30pm <em>GMT</em>
-				</p>
-				<p>
-					Closing time: 9pm <em>GMT</em>
-				</p> */}
 
 				<>{GetTime()}</>
 			</Template>
