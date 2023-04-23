@@ -8,7 +8,7 @@ afterEach(cleanup)
 test('Renders Card Component', () => {
 	const CardElement = <Card />
 	render(<Card />)
-	expect(Card).toBeInTheDocument()
+	expect(CardElement).toBeInTheDocument()
 	expect(Card).toHaveClass('card')
 })
 
