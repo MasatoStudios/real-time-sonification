@@ -1,70 +1,75 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Audible Display of the Stock Market in Realtime
 
-## Available Scripts
+[![DOI](https://zenodo.org/badge/599662599.svg)](https://zenodo.org/badge/latestdoi/599662599)
 
-In the project directory, you can run:
 
-### `npm start`
+ADSM is an offline dashboard built on ReactJS that allows for real time monitoring of the stock market with sonification for serendipitious peripheral monitoring. Check Experimental branch for newest beta version.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Table of contents
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- Installation
+- Configuration
+- Troubleshooting
+- Examples
+- Maintainers
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Installation
 
-### `npm run build`
+Download the software and inside the folder populate the libraries using:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```
+npm install
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Start the development server:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
+npm run development
+```
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Configuration
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Since custom hooks were created, changing the props will allow for full functionability with any stock and alarm note.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+To change the stock change the new object variable name and the ticker passed into the useStock Hook. For example
 
-## Learn More
+```
+const {
+		current: current<ChangeName>,
+		changePercent: changePercent<ChangeName>,
+		openPrice: openPrice<ChangeName>,
+		oldPrice: oldPrice<ChangeName>,
+	} = useStock('<Ticker>')
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Following this, update all object values where referenced in the HTML below.
 
-### Code Splitting
+## Troubleshooting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+For audible issues stop the audio using the media control on the dashboard, if issue is still present close the application and restart the npm server. 
 
-### Analyzing the Bundle Size
+For issues consisting of the dashboard, contact a maintanter or leave a github request.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Features are constantly being updated, so make sure to run a git pull to ensure you are using the current version of ADSM.
 
-### Making a Progressive Web App
+## Examples
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Below are videos showing the software working:
 
-### Advanced Configuration
+Price Increase example:
+https://www.youtube.com/watch?v=R8iDHn_O5rQ
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Deployment
+Price Decrease example:
+https://www.youtube.com/watch?v=TsoFgU4KwJk
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
-### `npm run build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Manitainers
+
+- Matthew Storey (https://www.linkedin.com/in/matthew-storey-330529188/)
